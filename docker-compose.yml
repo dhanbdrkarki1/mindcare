@@ -1,0 +1,47 @@
+services:
+  web:
+    build: .
+    ports:
+      - '5000:5000'
+    depends_on:
+      - db
+    restart: always
+    # volumes:
+    #   - ./:/app
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_ENV=production
+
+      # for SQLAlchemy
+      - DATABASE_URL=mysql+pymysql://admin:adminadmin@db/mindcare_db
+
+      # for entrypoint.sh MySQL checks
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_USER=mindcare_user
+      - DB_PASS=mindcare_password
+
+    networks:
+      - mindcare-network
+
+  db:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - '3306:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=Pass1234
+      - MYSQL_DATABASE=mindcare_db
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=adminadmin
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - mindcare-network
+
+volumes:
+  mysql_data:
+
+networks:
+  mindcare-network:
+    driver: bridge
