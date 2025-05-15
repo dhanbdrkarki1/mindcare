@@ -20,7 +20,7 @@ RUN chmod +x /entrypoint.sh
 COPY . /app
 
 # Expose the HTTP port
-EXPOSE 80
+EXPOSE 5000
 
 # Entrypoint will start Nginx, wait for MySQL, then Gunicorn
 ENTRYPOINT ["/entrypoint.sh"]
