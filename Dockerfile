@@ -1,28 +1,30 @@
+# Dockerfile
 FROM python:3.10-slim
+
+# Install OS packages: MySQL client + Nginx & supervisor deps
+RUN apt-get update \
+    && apt-get install -y \
+    default-mysql-client \
+    nginx \
+    procps \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Copy requirements first for better caching
+# Install Python deps
 COPY requirements.txt .
-
-# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-RUN apt-get update \
-    && apt-get install -y default-mysql-client \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copy entrypoint and app code
+# Copy app + entrypoint
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
+COPY . /app
 
-COPY . .
+# Copy Nginx config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Set environment variables (these can be overridden by Docker Compose)
-ENV FLASK_APP=app.py
-ENV FLASK_ENV=production
+# Expose the HTTP port
+EXPOSE 80
 
-EXPOSE 5000
-
-# Use entrypoint to run migrations then start Gunicorn
+# Entrypoint will start Nginx, wait for MySQL, then Gunicorn
 ENTRYPOINT ["/entrypoint.sh"]
