@@ -3,8 +3,8 @@ set -e
 
 # 0. Launch Nginx in the background
 echo "🔀 Starting Nginx..."
-nginx -t  # Test the configuration
-service nginx start  # Start as a service instead of directly
+nginx -t 
+service nginx start
 
 # Load env defaults
 DB_HOST=${DB_HOST:-db}
@@ -19,8 +19,6 @@ until mysql -h"$DB_HOST" -P"$DB_PORT" -u"$DB_USER" -p"$DB_PASS" -e "SELECT 1" &>
   sleep 1
 done
 echo "✅ MySQL is up!"
-
-# 2. (migrations if you re-enable them…)
 
 # 3. Start Gunicorn in the foreground
 echo "🚀 Starting Gunicorn..."

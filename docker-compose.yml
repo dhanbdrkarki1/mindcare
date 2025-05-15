@@ -13,7 +13,7 @@ services:
       - FLASK_ENV=production
 
       # for SQLAlchemy
-      - DATABASE_URL=mysql+pymysql://admin:adminadmin@db/mindcare_db
+      - DATABASE_URL=mysql+pymysql://mindcare_user:mindcare_password@db/mindcare_db
 
       # for entrypoint.sh MySQL checks
       - DB_HOST=db
@@ -30,10 +30,10 @@ services:
     ports:
       - '3306:3306'
     environment:
-      - MYSQL_ROOT_PASSWORD=Pass1234
+      - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=mindcare_db
-      - MYSQL_USER=admin
-      - MYSQL_PASSWORD=adminadmin
+      - MYSQL_USER=mindcare_user
+      - MYSQL_PASSWORD=mindcare_password
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
