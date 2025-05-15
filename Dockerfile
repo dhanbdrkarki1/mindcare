@@ -5,7 +5,6 @@ FROM python:3.10-slim
 RUN apt-get update \
     && apt-get install -y \
     default-mysql-client \
-    nginx \
     procps \
     && rm -rf /var/lib/apt/lists/*
 
@@ -19,10 +18,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 COPY . /app
-
-# Copy Nginx config and ensure it's properly loaded
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-RUN rm -f /etc/nginx/sites-enabled/default
 
 # Expose the HTTP port
 EXPOSE 80
