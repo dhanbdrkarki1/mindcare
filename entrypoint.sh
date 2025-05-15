@@ -3,7 +3,8 @@ set -e
 
 # 0. Launch Nginx in the background
 echo "🔀 Starting Nginx..."
-nginx
+nginx -t  # Test the configuration
+service nginx start  # Start as a service instead of directly
 
 # Load env defaults
 DB_HOST=${DB_HOST:-db}

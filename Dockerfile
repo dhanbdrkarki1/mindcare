@@ -20,8 +20,9 @@ COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 COPY . /app
 
-# Copy Nginx config
+# Copy Nginx config and ensure it's properly loaded
 COPY nginx.conf /etc/nginx/conf.d/default.conf
+RUN rm -f /etc/nginx/sites-enabled/default
 
 # Expose the HTTP port
 EXPOSE 80
