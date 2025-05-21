@@ -2,12 +2,10 @@ services:
   web:
     build: .
     ports:
-      - '5000:5000'
-    depends_on:
-      - db
+      - '80:5000'
     restart: always
-    # volumes:
-    #   - ./:/app
+    volumes:
+      - ./:/app
     environment:
       - FLASK_APP=app.py
       - FLASK_ENV=production
@@ -23,24 +21,6 @@ services:
 
     networks:
       - mindcare-network
-
-  db:
-    image: mysql:8.0
-    command: --default-authentication-plugin=mysql_native_password
-    ports:
-      - '3306:3306'
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=mindcare_db
-      - MYSQL_USER=mindcare_user
-      - MYSQL_PASSWORD=mindcare_password
-    volumes:
-      - db1_data:/var/lib/mysql
-    networks:
-      - mindcare-network
-
-volumes:
-  db1_data:
 
 networks:
   mindcare-network:

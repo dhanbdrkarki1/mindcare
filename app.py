@@ -17,6 +17,8 @@ import plotly.express as px
 import plotly.graph_objs as go
 from flask_migrate import Migrate
 
+from models import db, User, UserProfile, MentalHealthAssessment, HabitTracker, Appointment, Psychologist, JournalEntry
+
 
 model = pickle.load(open('stresslevel.pkl', 'rb'))
 # creation of the Flask Application named as "app"
@@ -33,7 +35,8 @@ database_url = os.environ.get('DATABASE_URL', 'sqlite:///database.db')
 app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(app)
+# Initialize the database with the app
+db.init_app(app)
 migrate = Migrate(app, db, directory='migrations')
 
 app.secret_key = os.environ.get('SECRET_KEY', 'tandrima')
@@ -47,10 +50,10 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    usn = db.Column(db.String(20), unique=True)
-    pas = db.Column(db.String(1000))
+# class User(db.Model, UserMixin):
+#     id = db.Column(db.Integer, primary_key=True)
+#     usn = db.Column(db.String(20), unique=True)
+#     pas = db.Column(db.String(1000))
 
 
 @app.route('/')
@@ -212,7 +215,17 @@ def stressdetect():
     return render_template('stress.html', prediction_text3='Stress Level is: {}'.format(data))
 
 
+from seed_data import create_seed_data
+
+# Create tables at application startup
+@app.before_first_request
+def create_tables():
+    db.create_all()
+    print("Database tables created!")
+    # Remove in PROD
+    create_seed_data(app)
+
+
+
 if __name__ == "__main__":
-    with app.app_context():
-        db.create_all()
     app.run(debug=True)
