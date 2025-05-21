@@ -2,7 +2,7 @@ services:
   web:
     build: .
     ports:
-      - '80:5000'
+      - '5000:5000'
     restart: always
     volumes:
       - ./:/app
