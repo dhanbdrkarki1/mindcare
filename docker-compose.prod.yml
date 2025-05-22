@@ -11,10 +11,10 @@ services:
       - FLASK_ENV=production
 
       # for SQLAlchemy
-      - DATABASE_URL=mysql+pymysql://mindcare_user:mindcare_password@mindcare.cfxz9clxyucm.us-east-1.rds.amazonaws.com/mindcare_db
+      - DATABASE_URL=mysql+pymysql://mindcare_user:mindcare_password@mindcare-1.cfxz9clxyucm.us-east-1.rds.amazonaws.com/mindcare_db
 
       # for entrypoint.sh MySQL checks
-      - DB_HOST=mindcare.cfxz9clxyucm.us-east-1.rds.amazonaws.com
+      - DB_HOST=mindcare-1.cfxz9clxyucm.us-east-1.rds.amazonaws.com
       - DB_PORT=3306
       - DB_USER=mindcare_user
       - DB_PASS=mindcare_password
