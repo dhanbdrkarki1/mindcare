@@ -18,6 +18,7 @@ services:
       - DB_PORT=3306
       - DB_USER=mindcare_user
       - DB_PASS=mindcare_password
+      - SIGN_UP_API_GATEWAY_URL=https://5awie7nwk1.execute-api.us-east-1.amazonaws.com/prod/signup
 
     networks:
       - mindcare-network

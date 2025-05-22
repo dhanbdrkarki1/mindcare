@@ -18,7 +18,7 @@ import plotly.graph_objs as go
 from flask_migrate import Migrate
 
 from models import db, User, UserProfile, MentalHealthAssessment, HabitTracker, Appointment, Psychologist, JournalEntry
-
+import requests
 
 model = pickle.load(open('stresslevel.pkl', 'rb'))
 # creation of the Flask Application named as "app"
@@ -61,25 +61,80 @@ def home():
     return render_template('index.html')
 
 
+# @app.route('/signup')
+# @app.route('/signup', methods=['POST', 'GET'])
+# def signup():
+#     if request.method == "POST":
+#         usn = request.form.get('usn')
+#         pas = request.form.get('pas')
+
+#         # print(usn,pas)
+#         encpassword = generate_password_hash(pas)
+#         user = User.query.filter_by(usn=usn).first()
+#         if user:
+#             flash("UserID is already taken", "warning")
+#             return render_template("usersignup.html")
+
+#         db.engine.execute(
+#             f"INSERT INTO `user` (`usn`,`pas`) VALUES ('{usn}','{encpassword}') ")
+
+#         flash("SignUp Success Please Login", "success")
+#         return render_template("userlogin.html")
+
+#     return render_template("usersignup.html")
+
+API_GATEWAY_URL_SIGN_UP = os.environ.get('API_GATEWAY_URL_SIGN_UP')
+
 @app.route('/signup')
 @app.route('/signup', methods=['POST', 'GET'])
 def signup():
     if request.method == "POST":
         usn = request.form.get('usn')
         pas = request.form.get('pas')
+        
+        # Call the API Gateway endpoint
+        try:
+            payload = {
+                'usn': usn,
+                'pas': pas
+            }
+            
+            response = requests.post(
+                API_GATEWAY_URL_SIGN_UP,
+                json=payload,
+                headers={'Content-Type': 'application/json'}
+            )
+            
+            if response.status_code == 201:
+                # Successful signup
+                flash("SignUp Success Please Login", "success")
+                return render_template("userlogin.html")
+            elif response.status_code == 409:
+                # Username already exists
+                flash("UserID is already taken", "warning")
+                return render_template("usersignup.html")
+            else:
+                # Other error
+                data = response.json()
+                flash(f"Signup failed: {data.get('message', 'Unknown error')}", "danger")
+                return render_template("usersignup.html")
+                
+        except requests.RequestException as e:
+            # API Gateway request failed, fall back to local signup
+            flash(f"API connection failed, using local signup", "warning")
+            
+            # Local signup logic
+            encpassword = generate_password_hash(pas)
+            user = User.query.filter_by(usn=usn).first()
+            if user:
+                flash("UserID is already taken", "warning")
+                return render_template("usersignup.html")
 
-        # print(usn,pas)
-        encpassword = generate_password_hash(pas)
-        user = User.query.filter_by(usn=usn).first()
-        if user:
-            flash("UserID is already taken", "warning")
-            return render_template("usersignup.html")
+            db.engine.execute(
+                f"INSERT INTO `user` (`usn`,`pas`) VALUES ('{usn}','{encpassword}') ")
 
-        db.engine.execute(
-            f"INSERT INTO `user` (`usn`,`pas`) VALUES ('{usn}','{encpassword}') ")
-
-        flash("SignUp Success Please Login", "success")
-        return render_template("userlogin.html")
+            flash("SignUp Success Please Login", "success")
+            return render_template("userlogin.html")
 
     return render_template("usersignup.html")
 
