@@ -2,25 +2,10 @@
          MindCare - Mental HealthCare Web App
 </h1>
 
-*****
-
-[![GitHub last commit](https://img.shields.io/github/last-commit/tandrimasingha/MindCare-MentalHealthcare?label=Last%20commit&color=green&logo=git&logoColor=white&style=flat-square)](https://github.com/tandrimasingha/Data-Analysis)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/tandrimasingha/MindCare-MentalHealthcare?label=Code%20size&logo=python&logoColor=white&style=flat-square)
-![GitHub repo size](https://img.shields.io/github/repo-size/tandrimasingha/MindCare-MentalHealthcare?label=Repo%20size&color=red&logo=github&logoColor=white&style=flat-square)
-![GitHub stars](https://img.shields.io/github/stars/tandrimasingha/MindCare-MentalHealthcare?label=Stars&logo=github&style=flat-square)
-![GitHub issues](https://img.shields.io/github/issues/tandrimasingha/MindCare-MentalHealthcare?label=Issues&color=yellow&logo=github&style=flat-square)
-
-
-
-
-
 ## 📊 Overview of the App
 
 Welcome to MindCare. <br> MindCare is a web app that analyses the psychological and mental health conditions of an individual and provide solutions to the problems.
-MindCare is a mental health solution that aims to provide users with easy access to resources related to mental wellbeing.  MindCare will help people to identify these issues timely and take necessary steps to improve the conditions of the victims and provide care to those, who are at risk of serious mental complications. The purpose of MindCare is to assist its users by providing solutions to their mental health conditions without requiring professional help in most cases. We have observed that these solutions work efficiently in bettering their mental health conditions. Users can also track their habits and keep a record of how often they have been doing the same. In serious cases, users will be able to book an appointment with a psychologist for consultation and get timely help.
-
-
-
+MindCare is a mental health solution that aims to provide users with easy access to resources related to mental wellbeing. MindCare will help people to identify these issues timely and take necessary steps to improve the conditions of the victims and provide care to those, who are at risk of serious mental complications. The purpose of MindCare is to assist its users by providing solutions to their mental health conditions without requiring professional help in most cases. We have observed that these solutions work efficiently in bettering their mental health conditions. Users can also track their habits and keep a record of how often they have been doing the same. In serious cases, users will be able to book an appointment with a psychologist for consultation and get timely help.
 
 ## 🚀 Tech Stack:
 
@@ -35,8 +20,7 @@ MindCare is a mental health solution that aims to provide users with easy access
 ![image](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)&nbsp;&nbsp;
 ![image](https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white)&nbsp;&nbsp;
 
-****
-
+---
 
 ## Structure Of The Project
 
@@ -48,25 +32,17 @@ MindCare is a mental health solution that aims to provide users with easy access
 - Exercise Recommendations : User can exercise for set duration of time by following the instructions that is being displayed on the screen.
 - Our user can also get access to our ChatBot which can answer them the general questions.
 
-
 ## Model Deployment
 
 - The web application is built using python library -> Flask and Web Programming languages -> HTML, CSS, , Js Bootstrap
-- The entire application is finally deployed on Heroku by adding - Procfile (informs Heroku that which application is to be run first), Requirements (notifies Heroku about the libraries that needs to be installed before deploying or running our application)
-- See the deployed application [here](https://mind-care.herokuapp.com/).
-
-## Demo Video Link : https://youtu.be/7BL3_NhBIfs
 
 ## Run Locally
 
-Open VSCode -
+```bash
 
-1.1 `git clone <repo link>`
+git clone <repo link>
+cd MindCare
+pip install -r requirements.txt
+flask run
 
-1.2 `cd MindCare`
-
-1.3 `pip install -r requirements.txt `
-
-1.4 `flask run`
-
-
+```
